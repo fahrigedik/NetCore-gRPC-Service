@@ -12,12 +12,19 @@ public class MessageService : Message.MessageBase
         _logger = logger;
     }
 
-    public override Task<MessageResponse> SendMessage(MessageRequest request, ServerCallContext context)
+    public override async Task SendMessage(MessageRequest request, IServerStreamWriter<MessageResponse> responseStream, ServerCallContext context)
     {
-        System.Console.WriteLine(request.Name);
-        return Task.FromResult(new MessageResponse
+        Console.WriteLine($"Clienttan gelen MessageRequest {request.Message } - {request.Name}");
+
+        for (int i = 0; i < 10; i++)
         {
-            Message = " Selam " + request.Name
-        });
+            await Task.Delay(1000);
+            await responseStream.WriteAsync(new MessageResponse
+            {
+                Message = $"Serverdan gelen mesaj {i}"
+            });
+        }
+         
     }
+
 }

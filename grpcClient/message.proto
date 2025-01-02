@@ -7,7 +7,7 @@ package message;
 // The greeting service definition.
 service Message {
   // Sends a greeting
-  rpc SendMessage (MessageRequest) returns (MessageResponse);
+  rpc SendMessage (MessageRequest) returns (stream MessageResponse);
 }
 
 // The request message containing the user's name.
